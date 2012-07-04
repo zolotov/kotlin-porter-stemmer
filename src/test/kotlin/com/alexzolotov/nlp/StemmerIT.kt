@@ -8,14 +8,14 @@ import org.testng.annotations.BeforeClass as before
 import org.testng.annotations.DataProvider as provider
 import org.testng.annotations.Test as test
 
-class StemmerTest {
+class StemmerIT {
     val stemmer = Stemmer()
 
     test(dataProvider = "testData") fun run(input: String, expected: String) {
         assertEquals(expected, stemmer.stem(input))
     }
 
-    provider(name = "testData") fun createData(): java.util.Iterator<Array<Any?>> {
+    provider(name = "testData", parallel = true) fun createData(): java.util.Iterator<Array<Any?>> {
         val inputDataReader = resourceReader("/voc.txt")
         val inputData = inputDataReader?.lineIterator()
         val expectedDataReader = resourceReader("/output.txt")
