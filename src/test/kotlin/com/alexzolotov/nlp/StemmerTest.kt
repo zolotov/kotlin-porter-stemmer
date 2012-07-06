@@ -33,6 +33,7 @@ class StemmerTest {
         assertEquals("file", stemmer.step1b("filing"))
         assertEquals("wrong", stemmer.step1b("wronging"))
         assertEquals("wrong", stemmer.step1b("wronged"))
+        assertEquals("speed", stemmer.step1b("speed"))
     }
 
     test fun step1c() {
@@ -64,6 +65,7 @@ class StemmerTest {
         assertEquals("sky", stemmer.step1("sky"))
         assertEquals("wrong", stemmer.step1("wronging"))
         assertEquals("wrong", stemmer.step1("wronged"))
+        assertEquals("speed", stemmer.step1("speed"))
     }
 
     test fun step2() {
@@ -120,6 +122,7 @@ class StemmerTest {
         assertEquals("homolog", stemmer.step4("homologous"))
         assertEquals("effect", stemmer.step4("effective"))
         assertEquals("bowdler", stemmer.step4("bowdlerize"))
+        assertEquals("oblivion", stemmer.step4("oblivion"))
     }
 
     test fun step5() {

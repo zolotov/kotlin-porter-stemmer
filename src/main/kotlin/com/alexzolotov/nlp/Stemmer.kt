@@ -9,7 +9,6 @@ public class Stemmer {
     private val CONSONANT_CVC = "[bcdfghjklmnpqrstvz]"
     private val REDUCED_CONSONANT = "(?:[bcdfghjkmnpqrtvwx]|(?<=[aeiou])y|^y)"
 
-
     private val VOWELS_REGEX = Pattern.compile("${VOWEL}+")
     private val CONSONANT_REGEX = Pattern.compile("${CONSONANT}+")
     private val M_REGEX = Pattern.compile("(${VOWEL}+${CONSONANT}+)")
@@ -70,8 +69,6 @@ public class Stemmer {
     }
 
     fun step4(word: String): String {
-        //            (m>1 and (*S or *T)) ION ->     adoption       ->  adopt
-
         return when {
             word.ensurePrefixM("al", 1) -> word.withoutPostfix("al")
             word.ensurePrefixM("ance", 1) -> word.withoutPostfix("ance")
@@ -84,7 +81,8 @@ public class Stemmer {
             word.ensurePrefixM("ement", 1) -> word.withoutPostfix("ement")
             word.ensurePrefixM("ment", 1) -> word.withoutPostfix("ment")
             word.ensurePrefixM("ent", 1) -> word.withoutPostfix("ent")
-            word.ensurePrefixM("ion", 1) -> word.withoutPostfix("ion")
+            word.ensurePrefixM("ion", 1)
+                && (word.endsWith("tion") || word.endsWith("sion")) -> word.withoutPostfix("ion")
             word.ensurePrefixM("ou", 1) -> word.withoutPostfix("ou")
             word.ensurePrefixM("ism", 1) -> word.withoutPostfix("ism")
             word.ensurePrefixM("ate", 1) -> word.withoutPostfix("ate")
@@ -111,8 +109,10 @@ public class Stemmer {
     }
 
     fun step1b(var word: String): String {
-        if (word.ensurePrefixM("eed", 0)) {
-            word = word.withoutPostfix(1)
+        if (word.endsWith("eed")) {
+            if (word.ensurePrefixM("eed", 0)) {
+                word = word.withoutPostfix(1)
+            }
         } else {
             word = when {
                 word.endsWith("ed") && word.containsVowel("ed") -> word.withoutPostfix("ed")
@@ -158,7 +158,6 @@ public class Stemmer {
         while(matcher!!.find()) {
             result++
         }
-        word.iterator()
         return result
     }
 
