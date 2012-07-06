@@ -29,12 +29,12 @@ class StemmerTest {
         assertEquals("hiss", stemmer.step1b("hissing"))
         assertEquals("fizz", stemmer.step1b("fizzed"))
         assertEquals("fail", stemmer.step1b("failed"))
-        assertEquals("file", stemmer.step1b("filling"))
+        assertEquals("file", stemmer.step1b("filing"))
     }
 
     test fun step1c() {
-        assertEquals("happy", stemmer.step1c("happy"))
-        assertEquals("ski", stemmer.step1c("sky"))
+        assertEquals("happi", stemmer.step1c("happy"))
+        assertEquals("sky", stemmer.step1c("sky"))
     }
 
     test fun step1() {
@@ -56,9 +56,9 @@ class StemmerTest {
         assertEquals("hiss", stemmer.step1("hissing"))
         assertEquals("fizz", stemmer.step1("fizzed"))
         assertEquals("fail", stemmer.step1("failed"))
-        assertEquals("file", stemmer.step1("filling"))
-        assertEquals("happy", stemmer.step1("happy"))
-        assertEquals("ski", stemmer.step1("sky"))
+        assertEquals("file", stemmer.step1("filing"))
+        assertEquals("happi", stemmer.step1("happy"))
+        assertEquals("sky", stemmer.step1("sky"))
     }
 
     test fun m() {
