@@ -24,6 +24,7 @@ class StemmerTest {
         assertEquals("conflate", stemmer.step1b("conflated"))
         assertEquals("trouble", stemmer.step1b("troubled"))
         assertEquals("size", stemmer.step1b("sized"))
+
         assertEquals("hop", stemmer.step1b("hopping"))
         assertEquals("tan", stemmer.step1b("tanned"))
         assertEquals("hiss", stemmer.step1b("hissing"))
@@ -59,6 +60,30 @@ class StemmerTest {
         assertEquals("file", stemmer.step1("filing"))
         assertEquals("happi", stemmer.step1("happy"))
         assertEquals("sky", stemmer.step1("sky"))
+    }
+
+    test fun step2() {
+        assertEquals("relate", stemmer.step2("relational"))
+        assertEquals("rational", stemmer.step2("rational"))
+        assertEquals("condition", stemmer.step2("conditional"))
+        assertEquals("valence", stemmer.step2("valenci"))
+        assertEquals("hesitance", stemmer.step2("hesitanci"))
+        assertEquals("digitize", stemmer.step2("digitizer"))
+        assertEquals("conformable", stemmer.step2("conformabli"))
+        assertEquals("radical", stemmer.step2("radicalli"))
+        assertEquals("different", stemmer.step2("differentli"))
+        assertEquals("vile", stemmer.step2("vileli"))
+        assertEquals("analogous", stemmer.step2("analogousli"))
+        assertEquals("vietnamize", stemmer.step2("vietnamization"))
+        assertEquals("predicate", stemmer.step2("predication"))
+        assertEquals("operate", stemmer.step2("operator"))
+        assertEquals("feudal", stemmer.step2("feudalism"))
+        assertEquals("decisive", stemmer.step2("decisiveness"))
+        assertEquals("hopeful", stemmer.step2("hopefulness"))
+        assertEquals("callous", stemmer.step2("callousness"))
+        assertEquals("formal", stemmer.step2("formaliti"))
+        assertEquals("sensitive", stemmer.step2("sensitiviti"))
+        assertEquals("sensible", stemmer.step2("sensibiliti"))
     }
 
     test fun m() {

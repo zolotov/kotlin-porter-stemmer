@@ -27,7 +27,29 @@ public class Stemmer {
     }
 
     fun step2(var word : String) : String {
-        return word
+        return when {
+            word.ensurePrefixM("ational", 0) -> word.replaceFirst("ational$", "ate")
+            word.ensurePrefixM("tional", 0) -> word.replaceFirst("tional$", "tion")
+            word.ensurePrefixM("enci", 0) -> word.replaceFirst("enci$", "ence")
+            word.ensurePrefixM("anci", 0) -> word.replaceFirst("anci$", "ance")
+            word.ensurePrefixM("izer", 0) -> word.replaceFirst("izer$", "ize")
+            word.ensurePrefixM("abli", 0) -> word.replaceFirst("abli$", "able")
+            word.ensurePrefixM("alli", 0) -> word.replaceFirst("alli$", "al")
+            word.ensurePrefixM("entli", 0) -> word.replaceFirst("entli$", "ent")
+            word.ensurePrefixM("eli", 0) -> word.replaceFirst("eli$", "e")
+            word.ensurePrefixM("ousli", 0) -> word.replaceFirst("ousli$", "ous")
+            word.ensurePrefixM("ization", 0) -> word.replaceFirst("ization$", "ize")
+            word.ensurePrefixM("ation", 0) -> word.replaceFirst("ation$", "ate")
+            word.ensurePrefixM("ator", 0) -> word.replaceFirst("ator$", "ate")
+            word.ensurePrefixM("alism", 0) -> word.replaceFirst("alism$", "al")
+            word.ensurePrefixM("iveness", 0) -> word.replaceFirst("iveness$", "ive")
+            word.ensurePrefixM("fulness", 0) -> word.replaceFirst("fulness$", "ful")
+            word.ensurePrefixM("ousness", 0) -> word.replaceFirst("ousness$", "ous")
+            word.ensurePrefixM("aliti", 0) -> word.replaceFirst("aliti$", "al")
+            word.ensurePrefixM("iviti", 0) -> word.replaceFirst("iviti$", "ive")
+            word.ensurePrefixM("biliti", 0) -> word.replaceFirst("biliti$", "ble")
+            else -> word
+        }
     }
 
     fun step3(var word : String) : String {
@@ -53,9 +75,8 @@ public class Stemmer {
     }
 
     fun step1b(var word : String) : String {
-        val m = m(word)
-        if (word.endsWith("eed")) {
-            if(m > 0) word = word.substring(0, word.length - 1)
+        if (word.ensurePrefixM("eed", 0)) {
+            word = word.substring(0, word.length - 1)
         } else {
             word = when {
                 word.endsWith("ed") && word.containsVowel(2) -> word.replaceFirst("ed$", "")
@@ -88,6 +109,11 @@ public class Stemmer {
         }
         word.iterator()
         return result
+    }
+
+    fun String.ensurePrefixM(postfix: String, requiredM: Int) : Boolean {
+        return this.length >= postfix.length && this.endsWith(postfix) &&
+            m(this.substring(0, this.length - postfix.length)) > requiredM
     }
 
     fun String.endsWithPattern(pattern : String) : Boolean = Pattern.compile("${pattern}$")!!.matcher(this)!!.find()
