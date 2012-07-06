@@ -31,6 +31,8 @@ class StemmerTest {
         assertEquals("fizz", stemmer.step1b("fizzed"))
         assertEquals("fail", stemmer.step1b("failed"))
         assertEquals("file", stemmer.step1b("filing"))
+        assertEquals("wrong", stemmer.step1b("wronging"))
+        assertEquals("wrong", stemmer.step1b("wronged"))
     }
 
     test fun step1c() {
@@ -60,6 +62,8 @@ class StemmerTest {
         assertEquals("file", stemmer.step1("filing"))
         assertEquals("happi", stemmer.step1("happy"))
         assertEquals("sky", stemmer.step1("sky"))
+        assertEquals("wrong", stemmer.step1("wronging"))
+        assertEquals("wrong", stemmer.step1("wronged"))
     }
 
     test fun step2() {
@@ -94,6 +98,50 @@ class StemmerTest {
         assertEquals("electric", stemmer.step3("electrical"))
         assertEquals("hope", stemmer.step3("hopeful"))
         assertEquals("good", stemmer.step3("goodness"))
+    }
+    
+    test fun step4() {
+        assertEquals("reviv", stemmer.step4("revival"))
+        assertEquals("allow", stemmer.step4("allowance"))
+        assertEquals("infer", stemmer.step4("inference"))
+        assertEquals("airlin", stemmer.step4("airliner"))
+        assertEquals("gyroscop", stemmer.step4("gyroscopic"))
+        assertEquals("adjust", stemmer.step4("adjustable"))
+        assertEquals("defens", stemmer.step4("defensible"))
+        assertEquals("irrit", stemmer.step4("irritant"))        
+        assertEquals("replac", stemmer.step4("replacement"))
+        assertEquals("adjust", stemmer.step4("adjustment"))
+        assertEquals("depend", stemmer.step4("dependent"))
+        assertEquals("adopt", stemmer.step4("adoption"))
+        assertEquals("homolog", stemmer.step4("homologou"))
+        assertEquals("commun", stemmer.step4("communism"))
+        assertEquals("activ", stemmer.step4("activate"))
+        assertEquals("angular", stemmer.step4("angulariti"))
+        assertEquals("homolog", stemmer.step4("homologous"))
+        assertEquals("effect", stemmer.step4("effective"))
+        assertEquals("bowdler", stemmer.step4("bowdlerize"))
+    }
+
+    test fun step5() {
+        assertEquals("probat", stemmer.step5("probate"))
+        assertEquals("rate", stemmer.step5("rate"))
+        assertEquals("ceas", stemmer.step5("cease"))
+        assertEquals("control", stemmer.step5("controll"))
+        assertEquals("roll", stemmer.step5("roll"))
+        assertEquals("worser", stemmer.step5("worser"))
+    }
+
+    test fun step5a() {
+        assertEquals("probat", stemmer.step5a("probate"))
+        assertEquals("rate", stemmer.step5a("rate"))
+        assertEquals("ceas", stemmer.step5a("cease"))
+        assertEquals("worser", stemmer.step5a("worser"))
+        assertEquals("yoke", stemmer.step5a("yoke"))
+    }
+
+    test fun step5b() {
+        assertEquals("control", stemmer.step5b("controll"))
+        assertEquals("roll", stemmer.step5b("roll"))
     }
 
     test fun m() {
