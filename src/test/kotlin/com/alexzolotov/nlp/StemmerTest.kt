@@ -86,6 +86,16 @@ class StemmerTest {
         assertEquals("sensible", stemmer.step2("sensibiliti"))
     }
 
+    test fun step3() {
+        assertEquals("triplic", stemmer.step3("triplicate"))
+        assertEquals("form", stemmer.step3("formative"))
+        assertEquals("formal", stemmer.step3("formalize"))
+        assertEquals("electric", stemmer.step3("electriciti"))
+        assertEquals("electric", stemmer.step3("electrical"))
+        assertEquals("hope", stemmer.step3("hopeful"))
+        assertEquals("good", stemmer.step3("goodness"))
+    }
+
     test fun m() {
         assertEquals(0, stemmer.m("tr"))
         assertEquals(0, stemmer.m("ee"))

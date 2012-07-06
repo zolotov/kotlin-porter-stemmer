@@ -26,7 +26,7 @@ public class Stemmer {
         return step1c(step1b(step1a(word)));
     }
 
-    fun step2(var word : String) : String {
+    fun step2(word : String) : String {
         return when {
             word.ensurePrefixM("ational", 0) -> word.replaceFirst("ational$", "ate")
             word.ensurePrefixM("tional", 0) -> word.replaceFirst("tional$", "tion")
@@ -52,8 +52,24 @@ public class Stemmer {
         }
     }
 
-    fun step3(var word : String) : String {
-        return word
+    fun step3(word : String) : String {
+        /*(m>0) ICATE ->  IC              triplicate     ->  triplic
+        (m>0) ATIVE ->                  formative      ->  form
+        (m>0) ALIZE ->  AL              formalize      ->  formal
+        (m>0) ICITI ->  IC              electriciti    ->  electric
+        (m>0) ICAL  ->  IC              electrical     ->  electric
+        (m>0) FUL   ->                  hopeful        ->  hope
+        (m>0) NESS  ->                  goodness       ->  good*/
+        return when {
+            word.ensurePrefixM("icate", 0) -> word.replaceFirst("icate$", "ic")
+            word.ensurePrefixM("ative", 0) -> word.withoutPostfix("ative")
+            word.ensurePrefixM("alize", 0) -> word.replaceFirst("alize", "al")
+            word.ensurePrefixM("iciti", 0) -> word.replaceFirst("iciti", "ic")
+            word.ensurePrefixM("ical", 0) -> word.replaceFirst("ical$", "ic")
+            word.ensurePrefixM("ful", 0) -> word.withoutPostfix("ful")
+            word.ensurePrefixM("ness", 0) -> word.withoutPostfix("ness")
+            else -> word
+        }
     }
 
     fun step4(var word : String) : String {
@@ -79,8 +95,8 @@ public class Stemmer {
             word = word.substring(0, word.length - 1)
         } else {
             word = when {
-                word.endsWith("ed") && word.containsVowel(2) -> word.replaceFirst("ed$", "")
-                word.endsWith("ing") && word.containsVowel(3) -> word.replaceFirst("ing$", "")
+                word.endsWith("ed") && word.containsVowel("ed") -> word.replaceFirst("ed$", "")
+                word.endsWith("ing") && word.containsVowel("ing") -> word.replaceFirst("ing$", "")
                 else -> return word
             }
 
@@ -98,7 +114,7 @@ public class Stemmer {
     }
 
     fun step1c(word : String) : String {
-        return if(word.endsWith("y") && word.containsVowel(1)) word.replaceFirst("y$", "i") else word
+        return if(word.endsWith("y") && word.containsVowel("y")) word.replaceFirst("y$", "i") else word
     }
 
     fun m(word : String) : Int {
@@ -113,12 +129,13 @@ public class Stemmer {
 
     fun String.ensurePrefixM(postfix: String, requiredM: Int) : Boolean {
         return this.length >= postfix.length && this.endsWith(postfix) &&
-            m(this.substring(0, this.length - postfix.length)) > requiredM
+            m(this.withoutPostfix(postfix)) > requiredM
     }
 
+    fun String.withoutPostfix(postfix : String) : String = this.substring(0, this.length - postfix.length)
     fun String.endsWithPattern(pattern : String) : Boolean = Pattern.compile("${pattern}$")!!.matcher(this)!!.find()
     fun String.endsWithCvc() : Boolean = this.endsWithPattern("${CONSONANT}${VOWEL}${CONSONANT_CVC}")
     fun String.containsVowel() : Boolean = VOWELS_REGEX!!.matcher(this)!!.find()
-    fun String.containsVowel(postfixCount: Int) : Boolean = this.substring(0, this.length - postfixCount).containsVowel()
+    fun String.containsVowel(postfix: String) : Boolean = this.substring(0, this.length - postfix.length).containsVowel()
     fun String.containsConsonant() : Boolean = CONSONANT_REGEX!!.matcher(this)!!.find()
 }
