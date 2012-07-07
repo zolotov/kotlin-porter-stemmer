@@ -90,6 +90,7 @@ class StemmerTest {
         assertEquals("formal", stemmer.step2("formaliti"))
         assertEquals("sensitive", stemmer.step2("sensitiviti"))
         assertEquals("sensible", stemmer.step2("sensibiliti"))
+        assertEquals("visible", stemmer.step2("visibli"))
     }
 
     test fun step3() {
@@ -123,6 +124,7 @@ class StemmerTest {
         assertEquals("effect", stemmer.step4("effective"))
         assertEquals("bowdler", stemmer.step4("bowdlerize"))
         assertEquals("oblivion", stemmer.step4("oblivion"))
+        assertEquals("vizament", stemmer.step4("vizament"))
     }
 
     test fun step5() {

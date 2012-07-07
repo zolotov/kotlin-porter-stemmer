@@ -31,65 +31,66 @@ public class Stemmer {
 
     fun step2(word: String): String {
         return when {
-            word.ensurePrefixM("ational", 0) -> word.replaceFirst("ational$", "ate")
-            word.ensurePrefixM("tional", 0) -> word.replaceFirst("tional$", "tion")
-            word.ensurePrefixM("enci", 0) -> word.replaceFirst("enci$", "ence")
-            word.ensurePrefixM("anci", 0) -> word.replaceFirst("anci$", "ance")
-            word.ensurePrefixM("izer", 0) -> word.replaceFirst("izer$", "ize")
-            word.ensurePrefixM("abli", 0) -> word.replaceFirst("abli$", "able")
-            word.ensurePrefixM("alli", 0) -> word.replaceFirst("alli$", "al")
-            word.ensurePrefixM("entli", 0) -> word.replaceFirst("entli$", "ent")
-            word.ensurePrefixM("eli", 0) -> word.replaceFirst("eli$", "e")
-            word.ensurePrefixM("ousli", 0) -> word.replaceFirst("ousli$", "ous")
-            word.ensurePrefixM("ization", 0) -> word.replaceFirst("ization$", "ize")
-            word.ensurePrefixM("ation", 0) -> word.replaceFirst("ation$", "ate")
-            word.ensurePrefixM("ator", 0) -> word.replaceFirst("ator$", "ate")
-            word.ensurePrefixM("alism", 0) -> word.replaceFirst("alism$", "al")
-            word.ensurePrefixM("iveness", 0) -> word.replaceFirst("iveness$", "ive")
-            word.ensurePrefixM("fulness", 0) -> word.replaceFirst("fulness$", "ful")
-            word.ensurePrefixM("ousness", 0) -> word.replaceFirst("ousness$", "ous")
-            word.ensurePrefixM("aliti", 0) -> word.replaceFirst("aliti$", "al")
-            word.ensurePrefixM("iviti", 0) -> word.replaceFirst("iviti$", "ive")
-            word.ensurePrefixM("biliti", 0) -> word.replaceFirst("biliti$", "ble")
+            word.endsWith("ational") -> word.replaceEnd("ational", "ate", 0)
+            word.endsWith("tional") -> word.replaceEnd("tional", "tion", 0)
+            word.endsWith("enci") -> word.replaceEnd("enci", "ence", 0)
+            word.endsWith("anci") -> word.replaceEnd("anci", "ance", 0)
+            word.endsWith("izer") -> word.replaceEnd("izer", "ize", 0)
+            word.endsWith("bli") -> word.replaceEnd("bli", "ble", 0)
+            word.endsWith("alli") -> word.replaceEnd("alli", "al", 0)
+            word.endsWith("entli") -> word.replaceEnd("entli", "ent", 0)
+            word.endsWith("eli") -> word.replaceEnd("eli", "e", 0)
+            word.endsWith("ousli") -> word.replaceEnd("ousli", "ous", 0)
+            word.endsWith("ization") -> word.replaceEnd("ization", "ize", 0)
+            word.endsWith("ation") -> word.replaceEnd("ation", "ate", 0)
+            word.endsWith("ator") -> word.replaceEnd("ator", "ate", 0)
+            word.endsWith("alism") -> word.replaceEnd("alism", "al", 0)
+            word.endsWith("iveness") -> word.replaceEnd("iveness", "ive", 0)
+            word.endsWith("fulness") -> word.replaceEnd("fulness", "ful", 0)
+            word.endsWith("ousness") -> word.replaceEnd("ousness", "ous", 0)
+            word.endsWith("aliti") -> word.replaceEnd("aliti", "al", 0)
+            word.endsWith("iviti") -> word.replaceEnd("iviti", "ive", 0)
+            word.endsWith("biliti") -> word.replaceEnd("biliti", "ble", 0)
+            word.endsWith("logi") -> word.replaceEnd("logi", "log", 0)
             else -> word
         }
     }
 
     fun step3(word: String): String {
         return when {
-            word.ensurePrefixM("icate", 0) -> word.replaceFirst("icate$", "ic")
-            word.ensurePrefixM("ative", 0) -> word.withoutPostfix("ative")
-            word.ensurePrefixM("alize", 0) -> word.replaceFirst("alize", "al")
-            word.ensurePrefixM("iciti", 0) -> word.replaceFirst("iciti", "ic")
-            word.ensurePrefixM("ical", 0) -> word.replaceFirst("ical$", "ic")
-            word.ensurePrefixM("ful", 0) -> word.withoutPostfix("ful")
-            word.ensurePrefixM("ness", 0) -> word.withoutPostfix("ness")
+            word.endsWith("icate") -> word.replaceEnd("icate", "ic", 0)
+            word.endsWith("ative") -> word.withoutPostfix("ative", 0)
+            word.endsWith("alize") -> word.replaceEnd("alize", "al",0 )
+            word.endsWith("iciti") -> word.replaceEnd("iciti", "ic", 0)
+            word.endsWith("ical") -> word.replaceEnd("ical", "ic", 0)
+            word.endsWith("ful") -> word.withoutPostfix("ful", 0)
+            word.endsWith("ness") -> word.withoutPostfix("ness", 0)
             else -> word
         }
     }
 
     fun step4(word: String): String {
         return when {
-            word.ensurePrefixM("al", 1) -> word.withoutPostfix("al")
-            word.ensurePrefixM("ance", 1) -> word.withoutPostfix("ance")
-            word.ensurePrefixM("ence", 1) -> word.withoutPostfix("ence")
-            word.ensurePrefixM("er", 1) -> word.withoutPostfix("er")
-            word.ensurePrefixM("ic", 1) -> word.withoutPostfix("ic")
-            word.ensurePrefixM("able", 1) -> word.withoutPostfix("able")
-            word.ensurePrefixM("ible", 1) -> word.withoutPostfix("ible")
-            word.ensurePrefixM("ant", 1) -> word.withoutPostfix("ant")
-            word.ensurePrefixM("ement", 1) -> word.withoutPostfix("ement")
-            word.ensurePrefixM("ment", 1) -> word.withoutPostfix("ment")
-            word.ensurePrefixM("ent", 1) -> word.withoutPostfix("ent")
-            word.ensurePrefixM("ion", 1)
-                && (word.endsWith("tion") || word.endsWith("sion")) -> word.withoutPostfix("ion")
-            word.ensurePrefixM("ou", 1) -> word.withoutPostfix("ou")
-            word.ensurePrefixM("ism", 1) -> word.withoutPostfix("ism")
-            word.ensurePrefixM("ate", 1) -> word.withoutPostfix("ate")
-            word.ensurePrefixM("iti", 1) -> word.withoutPostfix("iti")
-            word.ensurePrefixM("ous", 1) -> word.withoutPostfix("ous")
-            word.ensurePrefixM("ive", 1) -> word.withoutPostfix("ive")
-            word.ensurePrefixM("ize", 1) -> word.withoutPostfix("ize")
+            word.endsWith("al") -> word.withoutPostfix("al", 1)
+            word.endsWith("ance") -> word.withoutPostfix("ance", 1)
+            word.endsWith("ence") -> word.withoutPostfix("ence", 1)
+            word.endsWith("er") -> word.withoutPostfix("er", 1)
+            word.endsWith("ic") -> word.withoutPostfix("ic", 1)
+            word.endsWith("able") -> word.withoutPostfix("able", 1)
+            word.endsWith("ible") -> word.withoutPostfix("ible", 1)
+            word.endsWith("ant") -> word.withoutPostfix("ant", 1)
+            word.endsWith("ement") -> word.withoutPostfix("ement", 1)
+            word.endsWith("ment") -> word.withoutPostfix("ment", 1)
+            word.endsWith("ent") -> word.withoutPostfix("ent", 1)
+            word.endsWith("ion")
+                && (word.endsWith("tion") || word.endsWith("sion")) -> word.withoutPostfix("ion", 1)
+            word.endsWith("ou") -> word.withoutPostfix("ou", 1)
+            word.endsWith("ism") -> word.withoutPostfix("ism", 1)
+            word.endsWith("ate") -> word.withoutPostfix("ate", 1)
+            word.endsWith("iti") -> word.withoutPostfix("iti", 1)
+            word.endsWith("ous") -> word.withoutPostfix("ous", 1)
+            word.endsWith("ive") -> word.withoutPostfix("ive", 1)
+            word.endsWith("ize") -> word.withoutPostfix("ize", 1)
             else -> word
         }
     }
@@ -100,7 +101,7 @@ public class Stemmer {
 
     fun step1a(word: String): String {
         return when {
-            word.endsWith("sses") -> word.replaceFirst("sses$", "ss")
+            word.endsWith("sses") -> word.replaceEnd("sses", "ss")
             word.endsWith("ies") -> word.withoutPostfix(2)
             word.endsWith("ss") -> word
             word.endsWith("s") -> word.withoutPostfix(1)
@@ -110,13 +111,13 @@ public class Stemmer {
 
     fun step1b(var word: String): String {
         if (word.endsWith("eed")) {
-            if (word.ensurePrefixM("eed", 0)) {
+            if (m(word.withoutPostfix("eed")) > 0) {
                 word = word.withoutPostfix(1)
             }
         } else {
             word = when {
-                word.endsWith("ed") && word.containsVowel("ed") -> word.withoutPostfix("ed")
-                word.endsWith("ing") && word.containsVowel("ing") -> word.withoutPostfix("ing")
+                word.endsWith("ed") && word.withoutPostfix("ed").containsVowel() -> word.withoutPostfix("ed")
+                word.endsWith("ing") && word.withoutPostfix("ing").containsVowel() -> word.withoutPostfix("ing")
                 else -> return word
             }
 
@@ -134,7 +135,7 @@ public class Stemmer {
     }
 
     fun step1c(word: String): String {
-        return if(word.endsWith("y") && word.containsVowel("y")) word.replaceFirst("y$", "i") else word
+        return if(word.endsWith("y") && word.withoutPostfix("y").containsVowel()) word.replaceEnd("y", "i") else word
     }
 
     fun step5a(word: String): String {
@@ -161,17 +162,18 @@ public class Stemmer {
         return result
     }
 
-    fun String.ensurePrefixM(postfix: String, requiredM: Int): Boolean {
-        return this.length >= postfix.length && this.endsWith(postfix) &&
-            m(this.withoutPostfix(postfix)) > requiredM
+    fun String.replaceEnd(pattern : String, replacement: String, requiredM : Int = -1) : String{
+        return if (requiredM < 0 || m(this.withoutPostfix(pattern)) > requiredM) this.replaceFirst("${pattern}$", replacement) else this
+    } 
+    
+    fun String.withoutPostfix(postfix: String, requiredM : Int = -1): String = this.withoutPostfix(postfix.length, requiredM)
+    fun String.withoutPostfix(postfixLength: Int, requiredM : Int = -1): String {
+        val modifiedWord = this.substring(0, this.length - postfixLength)
+        return if (requiredM < 0 || m(modifiedWord) > requiredM) modifiedWord else this
     }
-
-    fun String.withoutPostfix(postfix: String): String = this.withoutPostfix(postfix.length)
-    fun String.withoutPostfix(postfixLength: Int): String = this.substring(0, this.length - postfixLength)
+    
     fun String.endsWithDoubleChars(): Boolean = this.length > 1 && this.charAt(this.length - 1) == this.charAt(this.length - 2)
     fun String.endsWithPattern(pattern: String): Boolean = Pattern.compile("${pattern}$")!!.matcher(this)!!.find()
     fun String.endsWithCvc(): Boolean = this.endsWithPattern("${CONSONANT}${VOWEL}${CONSONANT_CVC}")
     fun String.containsVowel(): Boolean = VOWELS_REGEX!!.matcher(this)!!.find()
-    fun String.containsVowel(postfix: String): Boolean = this.substring(0, this.length - postfix.length).containsVowel()
-    fun String.containsConsonant(): Boolean = CONSONANT_REGEX!!.matcher(this)!!.find()
 }
