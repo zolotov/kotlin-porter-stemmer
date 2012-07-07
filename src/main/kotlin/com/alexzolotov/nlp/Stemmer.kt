@@ -155,7 +155,8 @@ public class Stemmer {
 
     fun m(word: String): Int {
         var result = 0
-        val matcher = M_REGEX!!.matcher(word)
+        val wordWithoutTrailingConsonants = word.replaceFirst("^${CONSONANT}+", "");
+        val matcher = M_REGEX!!.matcher(wordWithoutTrailingConsonants)
         while(matcher!!.find()) {
             result++
         }

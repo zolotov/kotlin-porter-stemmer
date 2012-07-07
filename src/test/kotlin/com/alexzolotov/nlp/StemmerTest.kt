@@ -15,6 +15,7 @@ class StemmerTest {
     }
 
     test fun step1b() {
+        assertEquals("yclipe", stemmer.step1b("ycliped"))
         assertEquals("agree", stemmer.step1b("agreed"))
         assertEquals("plaster", stemmer.step1b("plastered"))
         assertEquals("bled", stemmer.step1b("bled"))
@@ -160,6 +161,7 @@ class StemmerTest {
         assertEquals(1, stemmer.m("oats"))
         assertEquals(1, stemmer.m("trees"))
         assertEquals(1, stemmer.m("ivy"))
+        assertEquals(1, stemmer.m("yclip"))
 
         assertEquals(2, stemmer.m("troubles"))
         assertEquals(2, stemmer.m("private"))
