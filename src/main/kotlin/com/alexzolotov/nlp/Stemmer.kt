@@ -145,20 +145,20 @@ public class Stemmer {
         return result
     }
 
-    fun String.replaceEnd(pattern: String, replacement: String, requiredM: Int = -1): String {
+    private fun String.replaceEnd(pattern: String, replacement: String, requiredM: Int = -1): String {
         return if (requiredM < 0 || m(this.withoutPostfix(pattern)) > requiredM)
             this.replaceFirst("${pattern}$", replacement)
         else this
     }
 
-    fun String.withoutPostfix(postfix: String, requiredM: Int = -1): String = this.withoutPostfix(postfix.length, requiredM)
-    fun String.withoutPostfix(postfixLength: Int, requiredM: Int = -1): String {
+    private fun String.withoutPostfix(postfix: String, requiredM: Int = -1): String = this.withoutPostfix(postfix.length, requiredM)
+    private fun String.withoutPostfix(postfixLength: Int, requiredM: Int = -1): String {
         val modifiedWord = this.substring(0, this.length - postfixLength)
         return if (requiredM < 0 || m(modifiedWord) > requiredM) modifiedWord else this
     }
 
-    fun String.endsWithDoubleChars(): Boolean = this.length > 1 && this.charAt(this.length - 1) == this.charAt(this.length - 2)
-    fun String.endsWithPattern(pattern: String): Boolean = Pattern.compile("${pattern}$")!!.matcher(this)!!.find()
-    fun String.endsWithCvc(): Boolean = this.endsWithPattern("${CONSONANT}${VOWEL}${CONSONANT_CVC}")
-    fun String.containsVowel(): Boolean = VOWELS_REGEX!!.matcher(this)!!.find()
+    private fun String.endsWithDoubleChars(): Boolean = this.length > 1 && this.charAt(this.length - 1) == this.charAt(this.length - 2)
+    private fun String.endsWithPattern(pattern: String): Boolean = Pattern.compile("${pattern}$")!!.matcher(this)!!.find()
+    private fun String.endsWithCvc(): Boolean = this.endsWithPattern("${CONSONANT}${VOWEL}${CONSONANT_CVC}")
+    private fun String.containsVowel(): Boolean = VOWELS_REGEX!!.matcher(this)!!.find()
 }
