@@ -1,29 +1,25 @@
 package com.alexzolotov.nlp
 
-import java.util.regex.Pattern
+class Stemmer {
+    companion object {
+        private const val VOWEL = "(?:[aeiou]|(?<![aeiou])y)"
+        private const val CONSONANT = "(?:[bcdfghjklmnpqrstvwxz]|(?<=[aeiou])y|^y)"
+        private const val CONSONANT_CVC = "[bcdfghjklmnpqrstvz]"
+        private const val REDUCED_CONSONANT = "(?:[bcdfghjkmnpqrtvwx]|(?<=[aeiou])y|^y)"
 
-public class Stemmer {
-    private val VOWEL = "(?:[aeiou]|(?<![aeiou])y)"
-    private val CONSONANT = "(?:[bcdfghjklmnpqrstvwxz]|(?<=[aeiou])y|^y)"
-    private val CONSONANT_CVC = "[bcdfghjklmnpqrstvz]"
-    private val REDUCED_CONSONANT = "(?:[bcdfghjkmnpqrtvwx]|(?<=[aeiou])y|^y)"
-
-    private val VOWELS_REGEX = Pattern.compile("${VOWEL}+")
-    private val CONSONANT_REGEX = Pattern.compile("${CONSONANT}+")
-    private val M_REGEX = Pattern.compile("(${VOWEL}+${CONSONANT}+)")
-
-    public fun stem(var word: String): String {
-        if(word.length < 3) {
-            return word
-        }
-        word = step1(word)
-        word = step2(word)
-        word = step3(word)
-        word = step4(word)
-        return step5(word)
+        private val VOWELS_REGEX = Regex("${VOWEL}+")
+        private val M_REGEX = Regex("(${VOWEL}+${CONSONANT}+)")
     }
 
-    fun step1(word: String) = step1c(step1b(step1a(word)));
+    fun stem(word: String): String {
+        return if (word.length < 3) {
+            word
+        } else {
+            step5(step4(step3(step2(step1(word)))))
+        }
+    }
+
+    fun step1(word: String) = step1c(step1b(step1a(word)))
 
     fun step1a(word: String) = when {
         word.endsWith("sses") -> word.replaceEnd("sses", "ss")
@@ -33,31 +29,41 @@ public class Stemmer {
         else -> word
     }
 
-    fun step1b(var word: String): String {
-        if (word.endsWith("eed")) {
+    fun step1b(word: String): String {
+        return if (word.endsWith("eed")) {
             if (m(word.withoutPostfix("eed")) > 0) {
-                word = word.withoutPostfix(1)
+                word.withoutPostfix(1)
+            } else {
+                word
             }
         } else {
-            word = when {
-                word.endsWith("ed") && word.withoutPostfix("ed").containsVowel() -> word.withoutPostfix("ed")
-                word.endsWith("ing") && word.withoutPostfix("ing").containsVowel() -> word.withoutPostfix("ing")
-                else -> return word
-            }
-            word = when {
-                word.endsWith("at") -> "${word}e"
-                word.endsWith("bl") -> "${word}e"
-                word.endsWith("iz") -> "${word}e"
-                word.endsWithDoubleChars() && word.endsWithPattern("${REDUCED_CONSONANT}") -> word.withoutPostfix(1)
-                word.endsWithCvc() && m(word) == 1 -> "${word}e"
-                else -> word
+            when {
+                word.endsWith("ed") && word.withoutPostfix("ed").containsVowel() -> {
+                    step1b1(word.withoutPostfix("ed"))
+                }
+                word.endsWith("ing") && word.withoutPostfix("ing").containsVowel() -> {
+                    step1b1(word.withoutPostfix("ing"))
+                }
+                else -> {
+                    word
+                }
             }
         }
-        return word
+    }
+
+    private fun step1b1(word: String): String {
+        return when {
+            word.endsWith("at") -> "${word}e"
+            word.endsWith("bl") -> "${word}e"
+            word.endsWith("iz") -> "${word}e"
+            word.endsWithDoubleChars() && word.endsWithPattern(REDUCED_CONSONANT) -> word.withoutPostfix(1)
+            word.endsWithCvc() && m(word) == 1 -> "${word}e"
+            else -> word
+        }
     }
 
     fun step1c(word: String): String {
-        return if(word.endsWith("y") && word.withoutPostfix("y").containsVowel()) word.replaceEnd("y", "i") else word
+        return if (word.endsWith("y") && word.withoutPostfix("y").containsVowel()) word.replaceEnd("y", "i") else word
     }
 
     fun step2(word: String) = when {
@@ -88,7 +94,7 @@ public class Stemmer {
     fun step3(word: String) = when {
         word.endsWith("icate") -> word.replaceEnd("icate", "ic", 0)
         word.endsWith("ative") -> word.withoutPostfix("ative", 0)
-        word.endsWith("alize") -> word.replaceEnd("alize", "al", 0 )
+        word.endsWith("alize") -> word.replaceEnd("alize", "al", 0)
         word.endsWith("iciti") -> word.replaceEnd("iciti", "ic", 0)
         word.endsWith("ical") -> word.replaceEnd("ical", "ic", 0)
         word.endsWith("ful") -> word.withoutPostfix("ful", 0)
@@ -109,7 +115,7 @@ public class Stemmer {
         word.endsWith("ment") -> word.withoutPostfix("ment", 1)
         word.endsWith("ent") -> word.withoutPostfix("ent", 1)
         word.endsWith("ion")
-        && (word.endsWith("tion") || word.endsWith("sion")) -> word.withoutPostfix("ion", 1)
+                && (word.endsWith("tion") || word.endsWith("sion")) -> word.withoutPostfix("ion", 1)
         word.endsWith("ou") -> word.withoutPostfix("ou", 1)
         word.endsWith("ism") -> word.withoutPostfix("ism", 1)
         word.endsWith("ate") -> word.withoutPostfix("ate", 1)
@@ -123,7 +129,7 @@ public class Stemmer {
     fun step5(word: String) = step5b(step5a(word))
 
     fun step5a(word: String): String {
-        if(word.endsWith("e")) {
+        if (word.endsWith("e")) {
             val wordWithoutE = word.withoutPostfix("e")
             val m = m(wordWithoutE)
             if (m > 1 || (m == 1 && !wordWithoutE.endsWithCvc())) {
@@ -136,29 +142,27 @@ public class Stemmer {
     fun step5b(word: String) = if (word.endsWith("ll") && m(word) > 1) word.withoutPostfix("l") else word
 
     fun m(word: String): Int {
-        var result = 0
-        val wordWithoutTrailingConsonants = word.replaceFirst("^${CONSONANT}+", "");
-        val matcher = M_REGEX!!.matcher(wordWithoutTrailingConsonants)
-        while(matcher!!.find()) {
-            result++
-        }
-        return result
+        val wordWithoutTrailingConsonants = word.replaceFirst(Regex("^${CONSONANT}+"), "")
+        return M_REGEX.findAll(wordWithoutTrailingConsonants).count()
     }
 
     private fun String.replaceEnd(pattern: String, replacement: String, requiredM: Int = -1): String {
         return if (requiredM < 0 || m(this.withoutPostfix(pattern)) > requiredM)
-            this.replaceFirst("${pattern}$", replacement)
+            this.replaceFirst(Regex("${pattern}$"), replacement)
         else this
     }
 
-    private fun String.withoutPostfix(postfix: String, requiredM: Int = -1): String = this.withoutPostfix(postfix.length, requiredM)
+    private fun String.withoutPostfix(postfix: String, requiredM: Int = -1): String {
+        return this.withoutPostfix(postfix.length, requiredM)
+    }
+
     private fun String.withoutPostfix(postfixLength: Int, requiredM: Int = -1): String {
-        val modifiedWord = this.substring(0, this.length - postfixLength)
+        val modifiedWord = substring(0, this.length - postfixLength)
         return if (requiredM < 0 || m(modifiedWord) > requiredM) modifiedWord else this
     }
 
-    private fun String.endsWithDoubleChars(): Boolean = this.length > 1 && this.charAt(this.length - 1) == this.charAt(this.length - 2)
-    private fun String.endsWithPattern(pattern: String): Boolean = Pattern.compile("${pattern}$")!!.matcher(this)!!.find()
+    private fun String.endsWithDoubleChars(): Boolean = this.length > 1 && this[this.length - 1] == this[this.length - 2]
+    private fun String.endsWithPattern(pattern: String): Boolean = Regex("${pattern}$").find(this) != null
     private fun String.endsWithCvc(): Boolean = this.endsWithPattern("${CONSONANT}${VOWEL}${CONSONANT_CVC}")
-    private fun String.containsVowel(): Boolean = VOWELS_REGEX!!.matcher(this)!!.find()
+    private fun String.containsVowel(): Boolean = VOWELS_REGEX.find(this) != null
 }

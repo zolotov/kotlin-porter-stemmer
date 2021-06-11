@@ -1,12 +1,13 @@
 package com.alexzolotov.nlp
 
+import kotlin.test.Test
 import kotlin.test.assertEquals
-import org.testng.annotations.Test as test
 
 class StemmerTest {
-    val stemmer = Stemmer()
+    private val stemmer = Stemmer()
 
-    test fun step1a() {
+    @Test
+    fun step1a() {
         assertEquals("caress", stemmer.step1a("caresses"))
         assertEquals("poni", stemmer.step1a("ponies"))
         assertEquals("ti", stemmer.step1a("ties"))
@@ -14,7 +15,8 @@ class StemmerTest {
         assertEquals("cat", stemmer.step1a("cats"))
     }
 
-    test fun step1b() {
+    @Test
+    fun step1b() {
         assertEquals("yclipe", stemmer.step1b("ycliped"))
         assertEquals("agree", stemmer.step1b("agreed"))
         assertEquals("plaster", stemmer.step1b("plastered"))
@@ -37,12 +39,14 @@ class StemmerTest {
         assertEquals("speed", stemmer.step1b("speed"))
     }
 
-    test fun step1c() {
+    @Test
+    fun step1c() {
         assertEquals("happi", stemmer.step1c("happy"))
         assertEquals("sky", stemmer.step1c("sky"))
     }
 
-    test fun step1() {
+    @Test
+    fun step1() {
         assertEquals("caress", stemmer.step1("caresses"))
         assertEquals("poni", stemmer.step1("ponies"))
         assertEquals("ti", stemmer.step1("ties"))
@@ -69,7 +73,8 @@ class StemmerTest {
         assertEquals("speed", stemmer.step1("speed"))
     }
 
-    test fun step2() {
+    @Test
+    fun step2() {
         assertEquals("relate", stemmer.step2("relational"))
         assertEquals("rational", stemmer.step2("rational"))
         assertEquals("condition", stemmer.step2("conditional"))
@@ -94,7 +99,8 @@ class StemmerTest {
         assertEquals("visible", stemmer.step2("visibli"))
     }
 
-    test fun step3() {
+    @Test
+    fun step3() {
         assertEquals("triplic", stemmer.step3("triplicate"))
         assertEquals("form", stemmer.step3("formative"))
         assertEquals("formal", stemmer.step3("formalize"))
@@ -103,8 +109,9 @@ class StemmerTest {
         assertEquals("hope", stemmer.step3("hopeful"))
         assertEquals("good", stemmer.step3("goodness"))
     }
-    
-    test fun step4() {
+
+    @Test
+    fun step4() {
         assertEquals("reviv", stemmer.step4("revival"))
         assertEquals("allow", stemmer.step4("allowance"))
         assertEquals("infer", stemmer.step4("inference"))
@@ -112,7 +119,7 @@ class StemmerTest {
         assertEquals("gyroscop", stemmer.step4("gyroscopic"))
         assertEquals("adjust", stemmer.step4("adjustable"))
         assertEquals("defens", stemmer.step4("defensible"))
-        assertEquals("irrit", stemmer.step4("irritant"))        
+        assertEquals("irrit", stemmer.step4("irritant"))
         assertEquals("replac", stemmer.step4("replacement"))
         assertEquals("adjust", stemmer.step4("adjustment"))
         assertEquals("depend", stemmer.step4("dependent"))
@@ -128,7 +135,8 @@ class StemmerTest {
         assertEquals("vizament", stemmer.step4("vizament"))
     }
 
-    test fun step5() {
+    @Test
+    fun step5() {
         assertEquals("probat", stemmer.step5("probate"))
         assertEquals("rate", stemmer.step5("rate"))
         assertEquals("ceas", stemmer.step5("cease"))
@@ -137,7 +145,8 @@ class StemmerTest {
         assertEquals("worser", stemmer.step5("worser"))
     }
 
-    test fun step5a() {
+    @Test
+    fun step5a() {
         assertEquals("probat", stemmer.step5a("probate"))
         assertEquals("rate", stemmer.step5a("rate"))
         assertEquals("ceas", stemmer.step5a("cease"))
@@ -145,12 +154,14 @@ class StemmerTest {
         assertEquals("yoke", stemmer.step5a("yoke"))
     }
 
-    test fun step5b() {
+    @Test
+    fun step5b() {
         assertEquals("control", stemmer.step5b("controll"))
         assertEquals("roll", stemmer.step5b("roll"))
     }
 
-    test fun m() {
+    @Test
+    fun m() {
         assertEquals(0, stemmer.m("tr"))
         assertEquals(0, stemmer.m("ee"))
         assertEquals(0, stemmer.m("tree"))

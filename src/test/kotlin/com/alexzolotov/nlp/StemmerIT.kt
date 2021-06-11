@@ -1,37 +1,26 @@
 package com.alexzolotov.nlp
 
 import java.io.BufferedReader
-import kotlin.support.FunctionIterator
+import org.testng.annotations.DataProvider
+import org.testng.annotations.Test
 import kotlin.test.assertEquals
-import org.testng.annotations.AfterClass as after
-import org.testng.annotations.BeforeClass as before
-import org.testng.annotations.DataProvider as provider
-import org.testng.annotations.Test as test
 
 class StemmerIT {
-    val stemmer = Stemmer()
+    private val stemmer = Stemmer()
 
-    test(dataProvider = "testData") fun run(input: String, expected: String) {
+    @Test(dataProvider = "testData")
+    fun run(input: String, expected: String) {
         assertEquals(expected, stemmer.stem(input))
     }
 
-    provider(name = "testData", parallel = true) fun createData(): java.util.Iterator<Array<Any?>> {
-        val inputDataReader = resourceReader("/voc.txt")
-        val inputData = inputDataReader?.lineIterator()
-        val expectedDataReader = resourceReader("/output.txt")
-        val expectedData = expectedDataReader?.lineIterator()
-        return FunctionIterator({
-            if(inputData!!.hasNext) {
-                array<Any?>(inputData!!.next(), expectedData!!.next())
-            } else {
-                inputDataReader!!.close()
-                expectedDataReader!!.close()
-                null
-            }
-        });
+    @DataProvider(name = "testData", parallel = true)
+    fun createData(): Iterator<Array<Any?>> {
+        val inputData = resourceReader("/voc.txt").lineSequence()
+        val expectedData = resourceReader("/output.txt").lineSequence()
+        return inputData.zip(expectedData).map { arrayOf<Any?>(it.first, it.second) }.iterator()
     }
 
-    private fun resourceReader(resourceName : String) : BufferedReader?  {
-        return this.javaClass.getResourceAsStream(resourceName)?.reader("UTF-8")?.buffered()
+    private fun resourceReader(resourceName: String): BufferedReader {
+        return this.javaClass.getResourceAsStream(resourceName)!!.reader().buffered()
     }
 }
